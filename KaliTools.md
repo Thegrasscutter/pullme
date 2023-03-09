@@ -11,3 +11,4 @@ https://github.com/danielmiessler/SecLists.git
 https://github.com/decalage2/oletools.git
 https://github.com/turbo/zero2hero.git
 https://github.com/kozmer/log4j-shell-poc.git
+https://github.com/ropnop/kerbrute.git
