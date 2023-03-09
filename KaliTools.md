@@ -1,0 +1,13 @@
+https://github.com/ticarpi/jwt_tool.git
+https://github.com/carlospolop/PEASS-ng.git
+https://github.com/PowerShellMafia/PowerSploit.git
+https://github.com/DominicBreuker/pspy.git
+https://github.com/internetwache/GitTools.git
+https://github.com/nidem/kerberoast.git
+https://github.com/NetDirect/nfsshell.git
+https://github.com/besimorhino/powercat.git
+https://github.com/61106960/adPEAS.git
+https://github.com/danielmiessler/SecLists.git
+https://github.com/decalage2/oletools.git
+https://github.com/turbo/zero2hero.git
+https://github.com/kozmer/log4j-shell-poc.git
