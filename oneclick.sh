@@ -8,8 +8,12 @@ echo "setxkbmap no" >> ~/.bashrc
 echo "setxkbmap no" >> ~/.zshrc
 #update metasploit
 echo "updating metasploit"
-msfupdate
+apt-get upgrade metasploit-framework
 #programs you need
+echo "setting up httpie"
+curl -SsL https://packages.httpie.io/deb/KEY.gpg | gpg --dearmor -o /usr/share/keyrings/httpie.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" > /etc/apt/sources.list.d/httpie.list
+apt update
 echo "installing programs"
 apt install -y tmux vim jq httpie docker.io crowbar
 echo "enabling docker and adding user to docker"
@@ -24,20 +28,22 @@ sudo -u kali pip install pycrypto
 echo "installing sliver"
 curl https://sliver.sh/install| bash
 # Github tools
-gclonecd() {
-        git clone "$1" && cd "$(basename "$1" .git)"
-        {
-                sudo -u kali pip install -r ./requirements
-        } || {
-                exit $1
-        }
-}
 echo "installing github libs"
-declare -a gits("https://sudo github.com/ticarpi/jwt_tool.sudo git" "https://sudo github.com/carlospolop/PEASS-ng.sudo git" "https://sudo github.com/PowerShellMafia/PowerSploit.sudo git" "https://sudo github.com/DominicBreuker/pspy.sudo git" "https://sudo github.com/internetwache/GitTools.sudo git" "https://sudo github.com/nidem/kerberoast.sudo git" "https://sudo github.com/NetDirect/nfsshell.sudo git" "https://sudo github.com/besimorhino/powercat.sudo git" "https://sudo github.com/61106960/adPEAS.sudo git" "https://sudo github.com/danielmiessler/SecLists.sudo git" "https://sudo github.com/decalage2/oletools.sudo git" "https://sudo github.com/turbo/zero2hero.sudo git" "https://sudo github.com/kozmer/log4j-shell-poc.sudo git" "https://sudo github.com/ropnop/kerbrute.sudo git")
+gits=("https://github.com/ticarpi/jwt_tool.git" "https://github.com/carlospolop/PEASS-ng.git" "https://github.com/PowerShellMafia/PowerSploit.git" "https://github.com/DominicBreuker/pspy.git" "https://github.com/internetwache/GitTools.git" "https://github.com/nidem/kerberoast.git" "https://github.com/NetDirect/nfsshell.git" "https://github.com/besimorhino/powercat.git" "https://github.com/61106960/adPEAS.git" "https://github.com/danielmiessler/SecLists.git" "https://github.com/decalage2/oletools.git" "https://github.com/turbo/zero2hero.git" "https://github.com/kozmer/log4j-shell-poc.git" "https://github.com/ropnop/kerbrute.git")
 for i in "${gits[@]}"
 do
         cd /opt
-        gclonecd($i)
+        git clone "$i"
+done
+for i in $(ls /opt/)
+do
+        cd /opt
+        cd $i
+        {
+                pip install -r requirements.txt
+        } || {
+                echo "no requirements"
+        }
 done
 
 #install ngrok
