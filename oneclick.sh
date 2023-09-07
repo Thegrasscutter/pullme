@@ -1,7 +1,7 @@
 #!/bin/bash
 #update the system
 echo "update and upgrading the system"
-apt update && apt upgrade
+apt update && apt upgrade -y
 #norwegian lang
 echo "adding norwegian lang to bash and zsh"
 echo "setxkbmap no" >> ~/.bashrc
