@@ -39,7 +39,6 @@ gits=(
 "https://github.com/NetDirect/nfsshell.git"
 "https://github.com/besimorhino/powercat.git"
 "https://github.com/61106960/adPEAS.git"
-"https://github.com/danielmiessler/SecLists.git"
 "https://github.com/decalage2/oletools.git"
 "https://github.com/turbo/zero2hero.git"
 "https://github.com/kozmer/log4j-shell-poc.git"
@@ -68,3 +67,10 @@ gunzip ./rockyou.txt.gz
 echo "installing ngrok"
 curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list 
 apt update && apt install ngrok
+
+
+cd /opt/PEASS-ng/linPEAS/
+wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/linpeas.sh
+cd /opt/PEAS-ng/winPEAS/
+wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEAS.bat
+wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEASx64.exe
