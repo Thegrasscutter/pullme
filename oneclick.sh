@@ -1,34 +1,50 @@
 #!/bin/bash
+declare -a failed=()
+declare -i index=0
 #update the system
-echo "update and upgrading the system"
+echo "[+] Update and upgrading the system"
 apt update && apt upgrade -y
 #norwegian lang
-echo "adding norwegian lang to bash and zsh"
+echo "[+] Adding norwegian lang to bash and zsh"
 echo "setxkbmap no" >> ~/.bashrc
 echo "setxkbmap no" >> ~/.zshrc
 #update metasploit
-echo "updating metasploit"
+echo "[+] Updating metasploit"
 apt-get upgrade metasploit-framework
 #programs you need
 echo "setting up httpie"
 curl -SsL https://packages.httpie.io/deb/KEY.gpg | gpg --dearmor -o /usr/share/keyrings/httpie.gpg
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" > /etc/apt/sources.list.d/httpie.list
 apt update
-echo "installing programs"
+echo "[+] Installing programs"
 apt install -y tmux vim jq httpie docker.io crowbar
-echo "enabling docker and adding user to docker"
+echo "[+] Enabling docker and adding user to docker"
 systemctl enable docker --now
 usermod -aG docker $USER
 
 #python libs you need
-echo "installing python packages"
-sudo -u kali pip install pwntools
-sudo -u kali pip install pycrypto
+echo "[+] Installing python packages"
+{
+        sudo -u kali pip install pwntools
+        sudo -u kali pip install pycrypto
+} ||{
+        echo "[-] Error something went wrong with python package installation, continuing"
+        failed[$index]="python-packages"
+        index=$(($index+1))
+}
+
 #install sliver
-echo "installing sliver"
-curl https://sliver.sh/install| bash
+echo "[+] Installing sliver"
+{
+        curl https://sliver.sh/install| bash
+} ||{
+        echo "[-] Error something went wrong with sliver installation, continuing"
+        failed[$index]="sliver"
+        index=$(($index+1))
+}
+
 # Github tools
-echo "installing github libs"
+echo "[+] Installing github libs"
 gits=(
 "https://github.com/ticarpi/jwt_tool.git" 
 "https://github.com/carlospolop/PEASS-ng.git"
@@ -64,13 +80,43 @@ cd /usr/share/wordlists
 git clone https://github.com/danielmiessler/SecLists
 gunzip ./rockyou.txt.gz
 #install ngrok
-echo "installing ngrok"
-curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list 
-apt update && apt install ngrok
+echo "[+] Installing ngrok"
+{
+        curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list 
+        apt update && apt install ngrok
+} ||{
+        echo "[-] Error something went wrong with ngrok installation, continuing"
+        failed[$index]="ngrok"
+        index=$(($index+1))
+}
 
+echo "[+] Getting linpeas and winpeas"
+{
+        cd /opt/PEASS-ng/linPEAS/
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/linpeas.sh
+        cd /opt/PEAS-ng/winPEAS/
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEAS.bat
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEASx64.exe
+} || {
+        echo "[-] Error something went wrong with linPEAS or winPEAS get, continuing"
+        failed[$index]="linPEAS/winPEAS"
+        index=$(($index+1))
+}
 
-cd /opt/PEASS-ng/linPEAS/
-wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/linpeas.sh
-cd /opt/PEAS-ng/winPEAS/
-wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEAS.bat
-wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEASx64.exe
+echo "[+] Installing Go"
+{
+        cd /home/kali/Downloads
+        wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
+        rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+        export PATH=$PATH:/usr/local/go/bin
+}||{
+        echo "[-] Error could not install go"
+        failed[$index]="go"
+        index=$(($index+1))
+}
+
+if (( ${#failed[@]} )); then
+        echo "Following parts of the script failed"
+        echo "${failed[@]}"
+fi
+echo "[+] Script done!"
