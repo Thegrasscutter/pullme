@@ -65,7 +65,7 @@ while [[ $# -gt 0 ]]; do
                         echo "-a/--attemptsPerLockoutPeriod is the amount of attempts the script will spray before wating the lockout time. Default set to 0!"
                         echo "-l/--lockoutPeriodInMinutes is the amount of minutes the script will wait between each spray campagin. Default set to 0!"
                         echo "-d/--domain is the domain you want to target"
-                        echo "-s/--stoponlock is the bolean value to stop on account lockout. Only flag needs to be set, no value needed!WARNING NOT IMPLEMENTED YET, WILL GET TO THIS"
+                        echo "-s/--stoponlock is the bolean value to stop on account lockout. Only flag needs to be set, no value needed!WARNING will stop on first account lockout. Needs more logic"
                         exit 1
                         ;;
                 -*|--*)
@@ -115,6 +115,10 @@ do
                                 then
                                         echo "[-] WARNING! ACCOUNT LOCKED DETECTED" #Need to add logic to see if this is the first time we see this account locked or not
                                         echo "[-] $user is locked out"
+                                        if [ "$STOPONFAIL" = true ] #untested but logicly should work
+                                        then
+                                                exit 1
+                                        fi
                                 fi
                         fi
 
