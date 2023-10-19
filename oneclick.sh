@@ -17,7 +17,7 @@ curl -SsL https://packages.httpie.io/deb/KEY.gpg | gpg --dearmor -o /usr/share/k
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" > /etc/apt/sources.list.d/httpie.list
 apt update
 echo "[+] Installing programs"
-apt install -y tmux vim jq httpie docker.io crowbar
+apt install -y tmux vim jq httpie docker.io crowbar spray
 echo "[+] Enabling docker and adding user to docker"
 systemctl enable docker --now
 usermod -aG docker $USER
@@ -93,10 +93,12 @@ echo "[+] Installing ngrok"
 echo "[+] Getting linpeas and winpeas"
 {
         cd /opt/PEASS-ng/linPEAS/
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/linpeas.sh
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/linpeas.sh
         cd /opt/PEAS-ng/winPEAS/
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEAS.bat
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231001-98cc0049/winPEASx64.exe
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEAS.bat
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASx64.exe
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASany_ofs.exe
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASx86_ofs.exe
 } || {
         echo "[-] Error something went wrong with linPEAS or winPEAS get, continuing"
         failed[$index]="linPEAS/winPEAS"
