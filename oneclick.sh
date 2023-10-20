@@ -17,7 +17,7 @@ curl -SsL https://packages.httpie.io/deb/KEY.gpg | gpg --dearmor -o /usr/share/k
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" > /etc/apt/sources.list.d/httpie.list
 apt update
 echo "[+] Installing programs"
-apt install -y tmux vim jq httpie docker.io crowbar spray
+apt install -y tmux vim jq httpie docker.io crowbar gdb
 echo "[+] Enabling docker and adding user to docker"
 systemctl enable docker --now
 usermod -aG docker $USER
@@ -59,6 +59,7 @@ gits=(
 "https://github.com/turbo/zero2hero.git"
 "https://github.com/kozmer/log4j-shell-poc.git"
 "https://github.com/ropnop/kerbrute.git"
+"https://github.com/pwndbg/pwndbg.git"
 )
 for i in "${gits[@]}"
 do
