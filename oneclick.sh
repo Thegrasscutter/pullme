@@ -117,7 +117,15 @@ echo "[+] Installing Go"
         failed[$index]="go"
         index=$(($index+1))
 }
-
+echo "[+] Installing pwntools"
+{
+        cd /opt/pwndbg
+        ./setup.sh
+}||{
+        echo "[-] Error could not install pwndbg"
+        failed[$index]="pwndbg"
+        index=$(($index+1))
+}
 if (( ${#failed[@]} )); then
         echo "Following parts of the script failed"
         echo "${failed[@]}"
