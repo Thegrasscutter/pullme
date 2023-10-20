@@ -82,9 +82,9 @@ done
 if [ ! -z "$USERNAME"  ]
 then
         USERS=$USERNAME
-elif [ ! -z "$USERLIST"  ]
+elif [ ! -z "$USERSLIST"  ]
 then
-        USERS=$(cat $USERLIST)
+        USERS=$(cat $USERSLIST)
 fi
 
 if [ ! -z "$PASSWORD"  ]
