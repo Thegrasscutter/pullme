@@ -6,8 +6,8 @@ echo "[+] Update and upgrading the system"
 apt update && apt upgrade -y
 #norwegian lang
 echo "[+] Adding norwegian lang to bash and zsh"
-echo "setxkbmap no" >> ~/.bashrc
-echo "setxkbmap no" >> ~/.zshrc
+echo "setxkbmap no" >> /home/kali/.bashrc
+echo "setxkbmap no" >> /home/kali/.zshrc
 #update metasploit
 echo "[+] Updating metasploit"
 apt-get upgrade metasploit-framework
@@ -17,7 +17,8 @@ curl -SsL https://packages.httpie.io/deb/KEY.gpg | gpg --dearmor -o /usr/share/k
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" > /etc/apt/sources.list.d/httpie.list
 apt update
 echo "[+] Installing programs"
-apt install -y tmux vim jq httpie docker.io crowbar gdb
+apt install -y tmux vim jq crowbar
+apt install -y httpie docker.io
 echo "[+] Enabling docker and adding user to docker"
 systemctl enable docker --now
 usermod -aG docker $USER
@@ -26,7 +27,7 @@ usermod -aG docker $USER
 echo "[+] Installing python packages"
 {
         sudo -u kali pip install pwntools
-        sudo -u kali pip install pycrypto
+        #sudo -u kali pip install pycrypto #Possibly broken
 } ||{
         echo "[-] Error something went wrong with python package installation, continuing"
         failed[$index]="python-packages"
@@ -71,7 +72,7 @@ do
         cd /opt
         cd $i
         {
-                pip install -r requirements.txt
+                sudo -u kali pip install -r requirements.txt
         } || {
                 echo "no requirements"
         }
@@ -117,10 +118,11 @@ echo "[+] Installing Go"
         failed[$index]="go"
         index=$(($index+1))
 }
-echo "[+] Installing pwntools"
+echo "[+] Installing pwndbg"
 {
         cd /opt/pwndbg
         ./setup.sh
+        echo "source /opt/pwndbg/gdbinit.py" >> /home/kali/.gdbinit
 }||{
         echo "[-] Error could not install pwndbg"
         failed[$index]="pwndbg"
