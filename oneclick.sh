@@ -27,7 +27,7 @@ usermod -aG docker $USER
 echo "[+] Installing python packages"
 {
         sudo -u kali pip install pwntools
-        #sudo -u kali pip install pycrypto #Possibly broken
+        sudo -u kali pip install pycryptodome
 } ||{
         echo "[-] Error something went wrong with python package installation, continuing"
         failed[$index]="python-packages"
@@ -96,7 +96,7 @@ echo "[+] Getting linpeas and winpeas"
 {
         cd /opt/PEASS-ng/linPEAS/
         wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/linpeas.sh
-        cd /opt/PEAS-ng/winPEAS/
+        cd /opt/PEASS-ng/winPEAS/
         wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEAS.bat
         wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASx64.exe
         wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASany_ofs.exe
