@@ -17,7 +17,7 @@ curl -SsL https://packages.httpie.io/deb/KEY.gpg | gpg --dearmor -o /usr/share/k
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" > /etc/apt/sources.list.d/httpie.list
 apt update
 echo "[+] Installing programs"
-apt install -y tmux vim jq crowbar
+apt install -y tmux vim jq crowbar bloodhound
 apt install -y httpie docker.io
 echo "[+] Enabling docker and adding user to docker"
 systemctl enable docker --now
