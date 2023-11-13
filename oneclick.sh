@@ -79,7 +79,8 @@ do
 done
 
 cd /usr/share/wordlists
-git clone https://github.com/danielmiessler/SecLists
+git clone https://github.com/danielmiessler/SecLists.git
+git clone https://github.com/stealthsploit/OneRuleToRuleThemStill.git
 gunzip ./rockyou.txt.gz
 #install ngrok
 echo "[+] Installing ngrok"
