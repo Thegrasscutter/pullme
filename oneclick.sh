@@ -19,6 +19,7 @@ apt update
 echo "[+] Installing programs"
 apt install -y tmux vim jq crowbar bloodhound
 apt install -y httpie docker.io
+apt install -y docker-compose
 echo "[+] Enabling docker and adding user to docker"
 systemctl enable docker --now
 usermod -aG docker $USER
