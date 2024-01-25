@@ -62,6 +62,8 @@ gits=(
 "https://github.com/kozmer/log4j-shell-poc.git"
 "https://github.com/ropnop/kerbrute.git"
 "https://github.com/pwndbg/pwndbg.git"
+"https://github.com/mdsecactivebreach/SharpShooter.git"
+#Placeholder to not forget https://github.com/tyranid/DotNetToJScript.git
 )
 for i in "${gits[@]}"
 do
@@ -97,12 +99,12 @@ echo "[+] Installing ngrok"
 echo "[+] Getting linpeas and winpeas"
 {
         cd /opt/PEASS-ng/linPEAS/
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/linpeas.sh
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20240124-4b54e914/linpeas.sh
         cd /opt/PEASS-ng/winPEAS/
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEAS.bat
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASx64.exe
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASany_ofs.exe
-        wget https://github.com/carlospolop/PEASS-ng/releases/download/20231015-0ad0e48c/winPEASx86_ofs.exe
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20240124-4b54e914/winPEAS.bat
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20240124-4b54e914/winPEASx64.exe
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20240124-4b54e914/winPEASany_ofs.exe
+        wget https://github.com/carlospolop/PEASS-ng/releases/download/20240124-4b54e914/winPEASx86_ofs.exe
 } || {
         echo "[-] Error something went wrong with linPEAS or winPEAS get, continuing"
         failed[$index]="linPEAS/winPEAS"
@@ -112,8 +114,8 @@ echo "[+] Getting linpeas and winpeas"
 echo "[+] Installing Go"
 {
         cd /home/kali/Downloads
-        wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
-        rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+        wget https://go.dev/dl/go1.21.6.linux-amd64.tar.gz
+        rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.6.linux-amd64.tar.gz
         export PATH=$PATH:/usr/local/go/bin
 }||{
         echo "[-] Error could not install go"
